@@ -1,27 +1,34 @@
 package demo.socket.server;
 
-import java.nio.channels.SocketChannel;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class DemoServer {
 
-    private Map<String,SocketChannel> socketChannelMap;
+    public void initServer(){
+        try {
+            ServerSocket serverSocket = new ServerSocket(1219);
+            SocketConnectPool connectPool = new SocketConnectPool();
+            System.out.println("server start....");
+            while (true){
+                Socket socket = serverSocket.accept();
+                System.out.println("get a connect.......");
 
-    public DemoServer(){
-        init();
-    }
+                DataInputStream input = new DataInputStream(socket.getInputStream());
+                String userName = input.readUTF();
 
-    private void init(){
-        if (socketChannelMap != null)return;
-        synchronized (this){
-            if (socketChannelMap != null)return;
-            socketChannelMap = new HashMap<String, SocketChannel>();
-            return;
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                out.writeUTF(userName +" welcome to my server !");
+
+                SocketManager socketManager = new SocketManager(socket);
+                connectPool.putSocket(userName,socketManager);
+
+                //bufferedReader.close();
+                //pw.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    private void start(){
-
     }
 }
