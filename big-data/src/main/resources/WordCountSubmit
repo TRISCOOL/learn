@@ -1,0 +1,6 @@
+./bin/spark-submit \
+  --class spark.WordCount \
+  --master spark://192.168.102.3:7077 \
+  --deploy-mode client \
+  /root/test.jar \
+  /test.txt /output/
