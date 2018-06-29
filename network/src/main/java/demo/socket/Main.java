@@ -1,8 +1,8 @@
 package demo.socket;
-
 public class Main {
     public static void main(String[] args){
-        String s = String.format("0x001",1);
-        System.out.println(s);
+        int big = 1234567890;
+        float approx = big;
+        System.out.println(big-(int) approx);
     }
 }

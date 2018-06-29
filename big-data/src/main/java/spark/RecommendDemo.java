@@ -21,6 +21,7 @@ public class RecommendDemo {
 
         Dataset<Row> ratings = spark.createDataFrame(ratingJavaRDD,Rating.class);
         Dataset<Row>[] splits = ratings.randomSplit(new double[]{0.8,0.2});
+
         Dataset<Row> training = splits[0];
         Dataset<Row> test = splits[1];
 
